@@ -82,6 +82,34 @@ return [
             ]) : [],
         ],
 
+        'master' => [
+        'driver' => 'pgsql',
+        'host' => env('DB_MASTER_HOST', '127.0.0.1'),
+        'port' => env('DB_MASTER_PORT', '5432'),
+        'database' => env('DB_MASTER_DATABASE', 'pos_system_master'),
+        'username' => env('DB_MASTER_USERNAME', 'postgres'),
+        'password' => env('DB_MASTER_PASSWORD', ''),
+        'charset' => 'utf8',
+        'prefix' => '',
+        'prefix_indexes' => true,
+        'schema' => 'public',
+        'sslmode' => 'prefer',
+    ],
+
+    'client_template' => [
+        'driver' => 'pgsql',
+        'host' => env('DB_CLIENT_HOST', '127.0.0.1'),
+        'port' => env('DB_CLIENT_PORT', '5432'),
+        'database' => '', // Will be set dynamically
+        'username' => env('DB_CLIENT_USERNAME', 'postgres'),
+        'password' => env('DB_CLIENT_PASSWORD', ''),
+        'charset' => 'utf8',
+        'prefix' => '',
+        'prefix_indexes' => true,
+        'schema' => 'public',
+        'sslmode' => 'prefer',
+    ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DB_URL'),
