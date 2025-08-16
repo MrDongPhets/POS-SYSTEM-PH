@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use App\Http\Controllers\Master\DashboardController as MasterDashboardController;
+use App\Http\Controllers\Client\DashboardController as ClientDashboardController;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -30,16 +32,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // Master/System Admin routes
 Route::middleware(['auth:master'])->prefix('master')->name('master.')->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('master/dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [MasterDashboardController::class, 'index'])->name('dashboard');
 });
 
 // Client/Tenant routes
 Route::middleware(['auth', 'tenant'])->prefix('client')->name('client.')->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('client/dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [ClientDashboardController::class, 'index'])->name('dashboard');
 });
 
 require __DIR__.'/settings.php';
