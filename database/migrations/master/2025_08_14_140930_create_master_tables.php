@@ -81,16 +81,19 @@ return new class extends Migration
         DB::statement('ALTER TABLE companies ADD COLUMN subscription_status subscription_status_enum DEFAULT \'active\'');
         DB::statement('CREATE INDEX idx_companies_subscription_status ON companies(subscription_status, subscription_expires_at)');
 
-        // Insert default super admin user
-        DB::table('system_users')->insert([
-            'name' => 'Platform Super Admin',
-            'email' => 'admin@possystem.com',
-            'password' => '$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'role' => 'super_admin',
-            'is_active' => true,
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        // Insert default super admin user AFTER the role column is added
+        DB::statement("
+            INSERT INTO system_users (name, email, password, role, is_active, created_at, updated_at) 
+            VALUES (
+                'Platform Super Admin',
+                'admin@possystem.com',
+                '$2y\$12\$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+                'super_admin'::system_user_role,
+                true,
+                NOW(),
+                NOW()
+            )
+        ");
     }
 
     public function down()
